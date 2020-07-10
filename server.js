@@ -40,10 +40,13 @@ app.get('/', (req, res) => {
   res.json({ message: 'Welcome to Nuxt Todo Server' });
 });
 
-// Require Users routes
+// Require routes
 const userRoute = require('./routes/user.route');
+const todoRoute = require('./routes/todo.route');
+
 // Using as middleware
 app.use('/api/users', userRoute);
+app.use('/api/todos', todoRoute);
 
 // Listen for requests
 app.listen(process.env.PORT, '0.0.0.0', () => {
