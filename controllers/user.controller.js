@@ -3,7 +3,7 @@ const User = require('../models/user.model');
 // Retrieve and return all users from database
 exports.findAll = (req, res) => {
   User.find().then(users => {
-    res.send({ code: 200, data: users });
+    res.send(users);
   }).catch(err => {
     res.status(500).send({
       code: 500,
@@ -21,13 +21,13 @@ exports.findOne = (req, res) => {
         message: 'Not found'
       });
     } else {
-      res.send({ code: 200, data: user });
+      res.send(user);
     }
   }).catch(err => {
     if (err.kind === 'ObjectId') {
       return res.status(404).send({
         code: 404,
-        message: `Not found`
+        message: 'Not found'
       });
     } else {
       return res.status(500).send({
