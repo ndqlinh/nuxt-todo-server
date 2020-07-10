@@ -24,23 +24,15 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 // Connecting to the database
-// mongoose.connect(dbConfig.url, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// }).then(() => {
-//   console.log('Successfully connected to the database.');
-// }).catch(err => {
-//   console.log("Couldn't connect to the database.", err);
-//   process.exit();
-// });
 mongoose.connect(dbConfig.url, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 mongoose.connection.once('open', () => {
-  console.log('Conection has been made!');
+  console.log('Successfully connected to the database!');
 }).on('error', error => {
   console.log('Error is: ', error);
+  process.exit();
 });
 
 // Define a root/default route
