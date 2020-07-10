@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config();
 
 // Create express app
 const app = express();
@@ -23,14 +24,23 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 // Connecting to the database
+// mongoose.connect(dbConfig.url, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// }).then(() => {
+//   console.log('Successfully connected to the database.');
+// }).catch(err => {
+//   console.log("Couldn't connect to the database.", err);
+//   process.exit();
+// });
 mongoose.connect(dbConfig.url, {
   useNewUrlParser: true,
   useUnifiedTopology: true
-}).then(() => {
-  console.log('Successfully connected to the database.');
-}).catch(err => {
-  console.log("Couldn't connect to the database.", err);
-  process.exit();
+});
+mongoose.connection.once('open', () => {
+  console.log('Conection has been made!');
+}).on('error', error => {
+  console.log('Error is: ', error);
 });
 
 // Define a root/default route
