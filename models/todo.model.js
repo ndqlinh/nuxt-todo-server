@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const TodoSchema = mongoose.Schema({
   name: String,
-  is_active: { type: Boolean, default: true }
+  isActive: { type: Boolean, default: true }
 }, {
   timestamps: true
 });

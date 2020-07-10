@@ -5,7 +5,7 @@ const UserSchema = mongoose.Schema({
   last_name: String,
   username: String,
   password: String,
-  is_active: { type: Boolean, default: true }
+  isActive: { type: Boolean, default: true }
 }, {
   timestamps: true
 });

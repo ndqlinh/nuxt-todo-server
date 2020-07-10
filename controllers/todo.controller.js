@@ -74,7 +74,7 @@ exports.update = (req, res) => {
   // Find todo and update it with the request body
   Todo.findByIdAndUpdate(req.params.id, {
     name: req.body.todo,
-    is_active: req.body.isActive
+    isActive: req.body.isActive
   }, { new: true }).then(todo => {
     if(!todo) {
       return res.status(404).send({
