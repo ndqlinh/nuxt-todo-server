@@ -1,5 +1,3 @@
 module.exports = {
-  // url: 'mongodb://heroku_pxs0s5jb:79mb22e7itc2to5rfg5nam353q@ds259802.mlab.com:59802/heroku_pxs0s5jb'
-  url: process.env.MONGOLAB_URI
+  url: 'mongodb://heroku_pmlt39n5:f6oqvgt7ccnnkf5p9il7jt0qv9@ds259802.mlab.com:59802/heroku_pmlt39n5'
 };
-// mongodb://heroku_z1fbj8gl:<dbpassword>@ds049538.mlab.com:49538/heroku_z1fbj8gl
