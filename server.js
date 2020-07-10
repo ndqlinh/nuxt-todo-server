@@ -1,3 +1,4 @@
+const cool = require('cool-ascii-faces');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -6,7 +7,7 @@ const cors = require('cors');
 const app = express();
 
 // Setup server port
-const port = process.port || 3000;
+const port = process.env.port || 5000;
 
 // Parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
