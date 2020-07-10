@@ -54,6 +54,6 @@ const userRoute = require('./routes/user.route');
 app.use('/api/users', userRoute);
 
 // Listen for requests
-app.listen(port, () => {
+app.listen(process.env.PORT, '0.0.0.0', () => {
   console.log(`Node server is listening on port ${port}`);
 });
