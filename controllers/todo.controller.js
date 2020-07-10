@@ -3,10 +3,9 @@ const Todo = require('../models/todo.model');
 // Retrieve and return all todos from database
 exports.findAll = (req, res) => {
   Todo.find().then(todos => {
-    res.send({ code: 200, data: todos });
+    res.send(todos);
   }).catch(err => {
     res.status(500).send({
-      code: 500,
       message: err.message || 'Internal server error'
     });
   });
@@ -21,7 +20,7 @@ exports.findOne = (req, res) => {
         message: 'Not found'
       });
     } else {
-      res.send({ code: 200, data: todo });
+      res.send(todo);
     }
   }).catch(err => {
     if (err.kind === 'ObjectId') {
