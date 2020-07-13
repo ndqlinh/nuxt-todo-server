@@ -52,7 +52,7 @@ exports.create = (req, res) => {
   });
   // Save todo in the database
   todo.save().then(() => {
-    res.send({ code: 200, message: 'Success' })
+    res.send({ code: 200, message: 'Success', todo: todo })
   }).catch(err => {
     res.status(500).send({
       code: 500,
