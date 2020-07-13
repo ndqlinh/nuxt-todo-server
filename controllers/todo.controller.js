@@ -124,3 +124,15 @@ exports.delete = (req, res) => {
     }
   });
 }
+
+// Delete all todos
+exports.deleteAll = (req, res) => {
+  Todo.remove().then(() => {
+    res.send({ code: 200, message: 'Deleted successful' });
+  }).catch(err => {
+    return res.status(500).send({
+      code: 500,
+      message: err.message || 'Internal server error'
+    });
+  })
+}
