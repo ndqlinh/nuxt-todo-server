@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const jsonwebtoken = require("jsonwebtoken");
 require('dotenv').config();
 
 // Create express app
@@ -17,6 +18,24 @@ app.use(bodyParser.json());
 
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
+
+app.use(function(req, res, next) {
+  if (
+    req.headers &&
+    req.headers.authorization &&
+    req.headers.authorization.split(' ')[0] === 'JWT') {
+    jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', (err, decode) => {
+      if (err) {
+        req.user = undefined;
+      }
+      req.user = decode;
+      next();
+    });
+  } else {
+    req.user = undefined;
+    next();
+  }
+});
 
 // Configuring the database
 const dbConfig = require('./config/db.config');
