@@ -140,19 +140,32 @@ exports.authenticate = async (req, res) => {
     });
   }
 
-  const user = await User.findOne({ username: req.body.username });
   const secret = 'Annonymous Supremetech';
 
-  if (user && bcrypt.compareSync(password, user.hash)) {
-    const token = jwt.sign({ sub: user._id }, secret, { expiresIn: '7d' });
-    return res.send({
-      code: 200,
-      token: token
-    });
-  } else {
-    return res.send({
-      code: 404,
-      message: 'Authenticate failed'
-    });
-  }
+  User.findOne({username: req.body.username}).then(user => {
+    if (!user) {
+      return res.send({
+        code: 404,
+        message: `Username ${req.body.username} have not regiter yet`
+      });
+    } else {
+      const token = jwt.sign({ id: user._id, username: user.username}, secret, { expiresIn: '7d' });
+      return res.send({
+        code: 200,
+        token: token
+      });
+    }
+  }).catch(err => {
+    if(err.kind === 'ObjectId' || err.name === 'NotFound') {
+      return res.status(404).send({
+        code: 404,
+        message: 'Not found'
+      });
+    } else {
+      return res.status(500).send({
+        code: 500,
+        message: err.message || 'Internal server error'
+      });
+    }
+  });
 }
