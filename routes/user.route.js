@@ -17,4 +17,7 @@ router.put('/:id', userController.update);
 // Delete a user with id
 router.delete('/:id', userController.delete);
 
+// Login with username and password
+router.post('/login', userController.authenticate);
+
 module.exports = router;

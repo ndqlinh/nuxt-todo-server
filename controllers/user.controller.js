@@ -130,3 +130,29 @@ exports.delete = (req, res) => {
     }
   });
 }
+
+exports.authenticate = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    return res.status(400).send({
+      code: 400,
+      message: 'Bad request'
+    });
+  }
+
+  const user = await User.findOne({ username: req.body.username });
+  const secret = 'Annonymous Supremetech';
+
+  if (user && bcrypt.compareSync(password, user.hash)) {
+    const token = jwt.sign({ sub: user._id }, secret, { expiresIn: '7d' });
+    return res.send({
+      code: 200,
+      token: token
+    });
+  } else {
+    return res.send({
+      code: 404,
+      message: 'Authenticate failed'
+    });
+  }
+}
