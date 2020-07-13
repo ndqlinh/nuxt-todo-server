@@ -131,7 +131,7 @@ exports.delete = (req, res) => {
   });
 }
 
-exports.authenticate = (req, res) => {
+exports.authenticate = async (req, res) => {
   // Validate request
   if (!req.body) {
     return res.status(400).send({
