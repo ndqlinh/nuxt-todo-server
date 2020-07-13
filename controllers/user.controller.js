@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
 
 // Retrieve and return all users from database
@@ -47,10 +49,19 @@ exports.create = (req, res) => {
       message: 'Bad request'
     });
   }
+
+  // Check username is taken
+  if (await User.findOne({ username: req.body.username })) {
+    return res.send({
+      code: 401,
+      message: `Username ${req.body.username} has already taken.`
+    });
+  }
+
   // Create a new User
   const user = new User({
     username: req.body.username,
-    password: req.body.password
+    hash: bcrypt.hashSync(req.body.password, 10)
   });
   // Save user in the database
   user.save().then(data => {
