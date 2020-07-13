@@ -131,11 +131,21 @@ exports.delete = (req, res) => {
 }
 
 exports.register = (req, res) => {
-  const newUser = new User(req.body);
-  newUser.hash_password = bcrypt.hashSync(req.body.password, 10);
+  // Validate request
+  if (!req.body) {
+    return res.status(400).send({
+      code: 400,
+      message: 'Bad request'
+    });
+  }
+
+  // Create a new User
+  const newUser = new User({
+    username: req.body.username,
+    hash_password: bcrypt.hashSync(req.body.password, 10)
+  });
   // Save user in the database
   newUser.save().then(user => {
-    user.hash_password = undefined;
     res.send({ code: 200, message: 'Success' })
   }).catch(err => {
     res.status(500).send({
@@ -146,6 +156,14 @@ exports.register = (req, res) => {
 }
 
 exports.login = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    return res.status(400).send({
+      code: 400,
+      message: 'Bad request'
+    });
+  }
+
   User.findOne({
     username: req.body.username
   }).then(user => {
