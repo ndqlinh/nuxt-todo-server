@@ -51,7 +51,7 @@ exports.create = (req, res) => {
   }
 
   // Check username is taken
-  if (await User.findOne({ username: req.body.username })) {
+  if (await this.findOne({ username: req.body.username })) {
     return res.send({
       code: 401,
       message: `Username ${req.body.username} has already taken.`
