@@ -140,7 +140,7 @@ exports.authenticate = async (req, res) => {
     });
   }
 
-  const secret = 'Annonymous Supremetech';
+  const secret = 'Annonymous JSON Web Token 7013';
 
   User.findOne({username: req.body.username}).then(user => {
     if (!user) {
@@ -149,7 +149,7 @@ exports.authenticate = async (req, res) => {
         message: `Username ${req.body.username} have not regiter yet`
       });
     } else {
-      const token = jwt.sign({ id: user._id, username: user.username}, secret, { expiresIn: '7d' });
+      const token = jwt.sign({ id: user._id, username: user.username }, secret, { expiresIn: '7d' });
       return res.send({
         code: 200,
         token: token
