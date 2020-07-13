@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const jsonwebtoken = require("jsonwebtoken");
 require('dotenv').config();
 
 // Create express app
@@ -34,24 +33,6 @@ mongoose.connection.once('open', () => {
 }).on('error', error => {
   console.log('Error is: ', error);
   process.exit();
-});
-
-app.use((req, res, next) => {
-  if (
-    req.headers &&
-    req.headers.authorization &&
-    req.headers.authorization.split(' ')[0] === 'JWT') {
-    jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', (err, decode) => {
-      if (err) {
-        req.user = undefined;
-      }
-      req.user = decode;
-      next();
-    });
-  } else {
-    req.user = undefined;
-    next();
-  }
 });
 
 // Define a root/default route

@@ -10,7 +10,7 @@ const UserSchema = mongoose.Schema({
     trim: true,
     required: true
   },
-  hash_password: {
+  password: {
     type: String,
     trim: true,
     required: true
@@ -19,9 +19,5 @@ const UserSchema = mongoose.Schema({
 }, {
   timestamps: true
 });
-
-UserSchema.methods.comparePassword = (password) => {
-  return bcrypt.compareSync(password, this.hash_password);
-};
 
 module.exports = mongoose.model('User', UserSchema);
