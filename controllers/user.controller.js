@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
+const config = require('../config.json');
 
 // Retrieve and return all users from database
 exports.findAll = (req, res) => {
@@ -94,8 +95,6 @@ exports.authenticate = async (req, res) => {
     });
   }
 
-  const secret = 'Annonymous JSON Web Token 7013';
-
   User.findOne({username: req.body.username}).then(user => {
     if (!user) {
       return res.send({
@@ -103,9 +102,14 @@ exports.authenticate = async (req, res) => {
         message: `Username ${req.body.username} have not regiter yet`
       });
     } else {
-      const token = jwt.sign({ id: user._id, username: user.username }, secret, { expiresIn: '7d' });
+      const token = jwt.sign(
+        { id: user._id, username: user.username },
+        config.secret,
+        { expiresIn: '7d' }
+      );
       return res.send({
         code: 200,
+        ...user.toJSON(),
         token: token
       });
     }
