@@ -66,7 +66,7 @@ process
 
 setInterval(console.log.bind(console, 'tick'), 1000);
 http.createServer((req, res) => res.end('hi'))
-  .listen(port || 5000, () => console.log('Listening'));
+  .listen(port, () => console.log('Listening'));
 
 // Listen for requests
 app.listen(process.env.PORT, '0.0.0.0', () => {
