@@ -39,6 +39,7 @@ exports.create = (req, res) => {
     username: req.body.username,
     hash: bcrypt.hashSync(req.body.password, 10)
   });
+
   // Save user in the database
   user.save().then(data => {
     res.send({ code: 200, message: 'Success' })
@@ -59,8 +60,8 @@ exports.update = (req, res) => {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     username: req.body.username,
-    password: req.body.password
-  }, { new: true }).then(user => {
+    password: bcrypt.hashSync(req.body.password, 10)
+  }).then(user => {
     if(!user) {
       return res.status(404).send({
         code: 404,

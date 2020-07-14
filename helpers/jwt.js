@@ -1,6 +1,6 @@
 const expressJwt = require('express-jwt');
 const config = require('../config.json');
-const userController = require('../controllers/user.controller');
+const User = require('../models/user.model');
 
 module.exports = jwt;
 
@@ -21,7 +21,7 @@ function jwt() {
 
 isRevoked = (req, payload, done) => {
   // Find user by ID
-  userController.findOne(payload.sub, (err, user) => {
+  User.findById(payload.sub).then(user => {
     if (!user) {
       return done(null, true)
     }
