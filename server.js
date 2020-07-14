@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const errorHandler = require('helpers/error-handler');
-const jwt = require('helpers/jwt');
+const errorHandler = require('./helpers/error-handler');
+const jwt = require('./helpers/jwt');
 
 require('dotenv').config();
 
