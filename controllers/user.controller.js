@@ -109,7 +109,7 @@ exports.authenticate = async (req, res) => {
         { expiresIn: '7d' }
       );
       user.tokens = token;
-      await user.save();
+      user.save();
       return res.send({
         code: 200,
         ...user.toJSON(),
