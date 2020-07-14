@@ -87,7 +87,7 @@ exports.delete = (req, res) => {
   }).catch(err => next(err));
 }
 
-exports.authenticate = async (req, res) => {
+exports.authenticate = (req, res) => {
   // Validate request
   if (!req.body) {
     return res.status(400).send({
@@ -108,8 +108,6 @@ exports.authenticate = async (req, res) => {
         config.secret,
         { expiresIn: '7d' }
       );
-      user.tokens = token;
-      user.save();
       return res.send({
         code: 200,
         ...user.toJSON(),
