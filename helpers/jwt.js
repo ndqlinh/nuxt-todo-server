@@ -20,8 +20,6 @@ function jwt() {
 }
 
 isRevoked = (req, payload, done) => {
-  console.log(req);
-  console.log(payload);
   User.findById(payload.id).then(user => {
     if (!user) {
       return done(null, true);
