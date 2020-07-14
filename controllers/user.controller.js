@@ -104,7 +104,7 @@ exports.authenticate = (req, res) => {
       });
     } else {
       const token = jwt.sign(
-        { id: user._id, username: user.username },
+        { sub: user._id, username: user.username },
         config.secret,
         { expiresIn: '7d' }
       );
