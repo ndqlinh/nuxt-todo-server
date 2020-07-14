@@ -19,12 +19,16 @@ function jwt() {
   });
 }
 
-isRevoked = (req, payload, done) => {
-  // Find user by ID
-  User.findById(payload.sub).then(user => {
-    if (!user) {
-      return done(null, true)
-    }
-    done();
-  });
+isRevoked = (req, done) => {
+  var token = req.headers['x-access-token'];
+  if(!token) {
+    return done(null, true);
+  } else {
+    User.findOne({ token }).then(user => {
+      if (!user) {
+        return done(null, true);
+      }
+      done();
+    });
+  }
 };

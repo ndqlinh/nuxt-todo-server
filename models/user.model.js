@@ -14,7 +14,8 @@ const UserSchema = mongoose.Schema({
     trim: true,
     required: true
   },
-  isActive: { type: Boolean, default: true }
+  isActive: { type: Boolean, default: true },
+  token: String
 }, {
   timestamps: true
 });
@@ -23,7 +24,7 @@ UserSchema.set('toJSON', {
   virtuals: true,
   versionKey: false,
   transform: (doc, ret) => {
-    delete ret._id;
+    delete ret.id;
     delete ret.hash
   }
 });
