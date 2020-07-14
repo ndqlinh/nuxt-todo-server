@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const http = require('http');
 const errorHandler = require('./helpers/error-handler');
 const jwt = require('./helpers/jwt');
 
@@ -62,6 +63,10 @@ process
   .on('SIGTERM', shutdown('SIGTERM'))
   .on('SIGINT', shutdown('SIGINT'))
   .on('uncaughtException', shutdown('uncaughtException'));
+
+setInterval(console.log.bind(console, 'tick'), 1000);
+http.createServer((req, res) => res.end('hi'))
+  .listen(port || 5000, () => console.log('Listening'));
 
 // Listen for requests
 app.listen(process.env.PORT, '0.0.0.0', () => {
