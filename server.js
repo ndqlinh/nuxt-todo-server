@@ -10,7 +10,7 @@ require('dotenv').config();
 const app = express();
 
 // Setup server port
-const port = process.env.port || 5000;
+const port = process.env.PORT || 5000;
 
 // Parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,7 +58,23 @@ app.use('/api/todos', todoRoute);
 // global error handler
 app.use(errorHandler);
 
+process
+  .on('SIGTERM', shutdown('SIGTERM'))
+  .on('SIGINT', shutdown('SIGINT'))
+  .on('uncaughtException', shutdown('uncaughtException'));
+
 // Listen for requests
 app.listen(process.env.PORT, '0.0.0.0', () => {
   console.log(`Node server is listening on port ${port}`);
 });
+
+function shutdown(signal) {
+  return (err) => {
+    console.log(`${ signal }...`);
+    if (err) console.error(err.stack || err);
+    setTimeout(() => {
+      console.log('...waited 5s, exiting.');
+      process.exit(err ? 1 : 0);
+    }, 5000).unref();
+  };
+}
