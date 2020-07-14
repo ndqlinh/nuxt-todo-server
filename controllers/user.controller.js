@@ -6,12 +6,7 @@ const User = require('../models/user.model');
 exports.findAll = (req, res) => {
   User.find().then(users => {
     res.send(users);
-  }).catch(err => {
-    res.status(500).send({
-      code: 500,
-      message: err.message || 'Internal server error'
-    });
-  });
+  }).catch(err => next(err));
 };
 
 // Find a single User with a id
@@ -25,19 +20,7 @@ exports.findOne = (req, res) => {
     } else {
       res.send(user);
     }
-  }).catch(err => {
-    if (err.kind === 'ObjectId') {
-      return res.status(404).send({
-        code: 404,
-        message: 'Not found'
-      });
-    } else {
-      return res.status(500).send({
-        code: 500,
-        message: err.message || `Internal server error`
-      });
-    }
-  });
+  }).catch(err => next(err));
 };
 
 // Create and save a new User
@@ -58,12 +41,7 @@ exports.create = (req, res) => {
   // Save user in the database
   user.save().then(data => {
     res.send({ code: 200, message: 'Success' })
-  }).catch(err => {
-    res.status(500).send({
-      code: 500,
-      message: err.message || 'Internal server error'
-    });
-  });
+  }).catch(err => next(err));
 };
 
 exports.update = (req, res) => {
@@ -90,19 +68,7 @@ exports.update = (req, res) => {
     } else {
       res.send({ code: 200, message: 'Update successful' });
     }
-  }).catch(err => {
-    if(err.kind === 'ObjectId') {
-      return res.status(404).send({
-        code: 404,
-        message: 'Not found'
-      });
-    } else {
-      res.status(500).send({
-        code: 500,
-        message: err.message || 'Internal server error'
-      });
-    }
-  });
+  }).catch(err => next(err));
 };
 
 // Delete a User with the specified id in the request
@@ -116,19 +82,7 @@ exports.delete = (req, res) => {
     } else {
       res.send({ code: 200, message: 'Deleted successful' });
     }
-  }).catch(err => {
-    if(err.kind === 'ObjectId' || err.name === 'NotFound') {
-      return res.status(404).send({
-        code: 404,
-        message: 'Not found'
-      });
-    } else {
-      return res.status(500).send({
-        code: 500,
-        message: err.message || 'Internal server error'
-      });
-    }
-  });
+  }).catch(err => next(err));
 }
 
 exports.authenticate = async (req, res) => {
@@ -155,17 +109,5 @@ exports.authenticate = async (req, res) => {
         token: token
       });
     }
-  }).catch(err => {
-    if(err.kind === 'ObjectId' || err.name === 'NotFound') {
-      return res.status(404).send({
-        code: 404,
-        message: 'Not found'
-      });
-    } else {
-      return res.status(500).send({
-        code: 500,
-        message: err.message || 'Internal server error'
-      });
-    }
-  });
+  }).catch(err => next(err));
 }

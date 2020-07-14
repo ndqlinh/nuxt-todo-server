@@ -4,11 +4,7 @@ const Todo = require('../models/todo.model');
 exports.findAll = (req, res) => {
   Todo.find().then(todos => {
     res.send(todos);
-  }).catch(err => {
-    res.status(500).send({
-      message: err.message || 'Internal server error'
-    });
-  });
+  }).catch(err => next(err));
 };
 
 // Find a single Todo with a id
@@ -22,19 +18,7 @@ exports.findOne = (req, res) => {
     } else {
       res.send(todo);
     }
-  }).catch(err => {
-    if (err.kind === 'ObjectId') {
-      return res.status(404).send({
-        code: 404,
-        message: `Not found`
-      });
-    } else {
-      return res.status(500).send({
-        code: 500,
-        message: err.message || `Internal server error`
-      });
-    }
-  });
+  }).catch(err => next(err));
 };
 
 // Create and save a new Todo
@@ -53,12 +37,7 @@ exports.create = (req, res) => {
   // Save todo in the database
   todo.save().then(() => {
     res.send({ code: 200, message: 'Success', todo: todo })
-  }).catch(err => {
-    res.status(500).send({
-      code: 500,
-      message: err.message || 'Internal server error'
-    });
-  });
+  }).catch(err => next(err));
 };
 
 // Update a single Todo with a id
@@ -84,19 +63,7 @@ exports.update = (req, res) => {
     } else {
       res.send({ code: 200, message: 'Update successful' });
     }
-  }).catch(err => {
-    if(err.kind === 'ObjectId') {
-      return res.status(404).send({
-        code: 404,
-        message: 'Not found'
-      });
-    } else {
-      res.status(500).send({
-        code: 500,
-        message: err.message || 'Internal server error'
-      });
-    }
-  });
+  }).catch(err => next(err));
 };
 
 // Delete a Todo with the specified id in the request
@@ -110,29 +77,12 @@ exports.delete = (req, res) => {
     } else {
       res.send({ code: 200, message: 'Deleted successful' });
     }
-  }).catch(err => {
-    if(err.kind === 'ObjectId' || err.name === 'NotFound') {
-      return res.status(404).send({
-        code: 404,
-        message: 'Not found'
-      });
-    } else {
-      return res.status(500).send({
-        code: 500,
-        message: err.message || 'Internal server error'
-      });
-    }
-  });
+  }).catch(err => next(err));
 }
 
 // Delete all todos
 exports.deleteAll = (req, res) => {
   Todo.remove().then(() => {
     res.send({ code: 200, message: 'Deleted successful' });
-  }).catch(err => {
-    return res.status(500).send({
-      code: 500,
-      message: err.message || 'Internal server error'
-    });
-  })
+  }).catch(err => next(err))
 }
