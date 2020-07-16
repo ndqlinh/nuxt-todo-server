@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const todoController = require('../controllers/todo.controller');
 
+// Using as middleware before APIs which need to be verified
+const authMiddleWare = require('./middleware/auth.middleware');
+router.use(authMiddleWare.isAuth);
+
 // Retrieve all todos
 router.get('/', todoController.findAll);
 

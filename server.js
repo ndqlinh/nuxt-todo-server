@@ -54,10 +54,6 @@ const todoRoute = require('./routes/todo.route');
 
 app.use('/api/auth', authRoute);
 
-// Using as middleware before APIs which need to be verified
-const authMiddleWare = require('./middleware/auth.middleware');
-router.use(authMiddleWare.isAuth);
-
 app.use('/api/users', userRoute);
 app.use('/api/todos', todoRoute);
 
