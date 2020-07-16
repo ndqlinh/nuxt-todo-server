@@ -91,3 +91,27 @@ exports.refreshToken = async (req, res) => {
     });
   }
 }
+
+/**
+ * controller logout
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.logout = async (req, res) => {
+  try {
+    const user = await User.findOne({ accessToken: req.headers['Authorization'] });
+    if (!user) {
+      return res.send({
+        code: 404,
+        message: 'Cannot find token.'
+      });
+    } else {
+      user.accessToken = '';
+      user.refreshToken = '';
+      await user.save();
+      res.status(200).json({ code: 200, message: 'Logout success' });
+    }
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
