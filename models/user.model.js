@@ -15,10 +15,8 @@ const UserSchema = mongoose.Schema({
     required: true
   },
   isActive: { type: Boolean, default: true },
-  tokens: {
-    type: Map,
-    of: String
-  }
+  accessToken: String,
+  refreshToken: String
 }, {
   timestamps: true
 });
