@@ -41,12 +41,12 @@ exports.login = async (req, res) => {
     //     if (err) {
     //       return res.json(err);
     //     }
-    //     return res.status(200).json({
-    //       code: 200,
-    //       ...user.toJSON(),
-    //       accessToken,
-    //       refreshToken
-    //     });
+        return res.status(200).json({
+          code: 200,
+          ...user.toJSON(),
+          // accessToken,
+          // refreshToken
+        });
     //   });
     // }
   } catch (error) {
