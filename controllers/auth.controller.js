@@ -99,7 +99,7 @@ exports.refreshToken = async (req, res) => {
  */
 exports.logout = async (req, res) => {
   try {
-    const user = await User.findOne({ accessToken: req.headers['Authorization'] });
+    const user = await User.findOne({ accessToken: req.headers['x-access-token'] });
     if (!user) {
       return res.send({
         code: 404,

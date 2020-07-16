@@ -10,7 +10,7 @@ const accessTokenSecret = config.secret;
  * @param {*} next 
  */
 const isAuth = async (req, res, next) => {
-  const clientToken = req.body.token || req.query.token || req.headers['Authorization'];
+  const clientToken = req.body.token || req.query.token || req.headers['x-access-token'];
 
   if (clientToken) {
     try {
