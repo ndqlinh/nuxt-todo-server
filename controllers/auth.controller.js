@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
       if (match) {
         const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
         const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
-        user.tokens = {accessToken, refreshToken};
+        user.tokens[refreshToken] = {accessToken, refreshToken};
         user.save(err => {
           if (err) {
             return res.status(403).json(err);
