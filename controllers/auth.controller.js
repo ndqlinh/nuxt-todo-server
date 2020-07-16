@@ -74,10 +74,9 @@ exports.refreshToken = async (req, res) => {
         });
       } else {
         const decoded = await jwtHelper.verifyToken(clientRefreshToken, config.refreshSecret);
-        debug(`decoded: ${decoded}`);
         const user = decoded.data;
         const accessToken = await jwtHelper.generateToken(user, config.secret, accessTokenLife);
-        return res.status(200).json({ accessToken });
+        return res.status(200).json({ accessToken, decoded });
       }
     } catch (error) {
       debug(error);
