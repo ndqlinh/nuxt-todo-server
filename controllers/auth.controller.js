@@ -74,8 +74,9 @@ exports.refreshToken = async (req, res) => {
         });
       } else {
         const decoded = await jwtHelper.verifyToken(clientRefreshToken, config.refreshSecret);
-        const accessToken = await jwtHelper.generateToken(decoded.data, config.secret, accessTokenLife);
-        return res.status(200).json({ accessToken, user });
+        const userData = decoded.data;
+        const accessToken = await jwtHelper.generateToken(userData, config.secret, accessTokenLife);
+        return res.status(200).json({ user, accessToken });
       }
     } catch (error) {
       debug(error);
