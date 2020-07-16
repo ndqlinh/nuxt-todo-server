@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
 const jwtHelper = require('../helpers/jwt.helper');
 const config = require('../config.json');
