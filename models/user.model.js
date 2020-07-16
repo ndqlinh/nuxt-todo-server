@@ -14,7 +14,8 @@ const UserSchema = mongoose.Schema({
     trim: true,
     required: true
   },
-  isActive: { type: Boolean, default: true }
+  isActive: { type: Boolean, default: true },
+  tokens: Object
 }, {
   timestamps: true
 });

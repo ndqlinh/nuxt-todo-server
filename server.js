@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const errorHandler = require('./helpers/error-handler');
-const jwt = require('./helpers/jwt');
+// const jwt = require('./helpers/jwt');
 
 require('dotenv').config();
 
@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // use JWT auth to secure the api
-app.use(jwt());
+// app.use(jwt());
 
 // Configuring the database
 const dbConfig = require('./config/db.config');
@@ -48,10 +48,16 @@ app.get('/', (req, res) => {
 });
 
 // Require routes
+const authRoute = require('./routes/auth.route');
 const userRoute = require('./routes/user.route');
 const todoRoute = require('./routes/todo.route');
 
-// Using as middleware
+app.use('/api/auth', authRoute);
+
+// Using as middleware before APIs which need to be verified
+const authMiddleWare = require('./middleware/auth.middleware');
+router.use(authMiddleWare.isAuth);
+
 app.use('/api/users', userRoute);
 app.use('/api/todos', todoRoute);
 
