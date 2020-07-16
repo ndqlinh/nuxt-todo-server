@@ -61,9 +61,10 @@ exports.login = async (req, res) => {
 exports.refreshToken = async (req, res) => {
   const clientRefreshToken = req.body.refreshToken;
   if (clientRefreshToken) {
-    User.findOne({
-      tokens: { clientRefreshToken: clientRefreshToken }
-    }).then(user => {
+    try {
+      const user = User.findOne({
+        tokens: { clientRefreshToken: clientRefreshToken }
+      });
       if (!user) {
         return res.send({
           code: 404,
@@ -75,12 +76,12 @@ exports.refreshToken = async (req, res) => {
         const accessToken = await jwtHelper.generateToken(userFakeData, accessTokenSecret, accessTokenLife);
         return res.status(200).json({ accessToken });
       }
-    }).catch(error => {
+    } catch (error) {
       debug(error);
       return res.status(403).json({
         message: 'Invalid refresh token.',
       });
-    });
+    }
   } else {
     return res.status(403).send({
       message: 'No token provided.',
