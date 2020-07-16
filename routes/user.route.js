@@ -4,7 +4,7 @@ const userController = require('../controllers/user.controller');
 
 // Using as middleware before APIs which need to be verified
 const authMiddleWare = require('../middleware/auth.middleware');
-router.use(authMiddleWare.isAuth);
+// router.use(authMiddleWare.isAuth);
 
 // Retrieve all users
 router.get('/', userController.findAll);
