@@ -22,17 +22,20 @@ const isAuth = async (req, res, next) => {
         next();
       } else {
         return res.status(401).json({
+          code: 401,
           message: 'Unauthorized.',
         });
       }
     } catch (err) {
       debug("Error while verify token:", error);
       return res.status(401).json({
+        code: 401,
         message: 'Unauthorized.',
       });
     }
   } else {
     return res.status(403).send({
+      code: 403,
       message: 'No token provided.',
     });
   }
