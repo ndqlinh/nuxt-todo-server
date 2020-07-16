@@ -21,36 +21,36 @@ exports.login = async (req, res) => {
     });
   }
 
-  const account = {
-    username: req.body.username,
-    hash: bcrypt.hashSync(req.body.password, 10)
-  };
-
   try {
-    const user = await User.findOne({
-      // username: req.body.username,
-      hash: bcrypt.hashSync(req.body.password, 10)
-    });
+    const user = await User.findOne({ username: req.body.username });
     if (!user) {
       return res.send({
         code: 404,
         message: `Username ${bcrypt.hashSync(req.body.password, 10)} have not register yet`
       });
     } else {
-    //   const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
-    //   const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
-    //   user.tokens[refreshToken] = {accessToken, refreshToken};
-    //   user.update((err, user) => {
-    //     if (err) {
-    //       return res.json(err);
-    //     }
-        return res.status(200).json({
-          code: 200,
-          ...user.toJSON(),
-          // accessToken,
-          // refreshToken
+      const match = await bcrypt.compare(req.body.password, user.hash);
+      if (match) {
+        const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
+        const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
+        user.tokens[refreshToken] = {accessToken, refreshToken};
+        user.update((err, user) => {
+          if (err) {
+            return res.json(err);
+          }
+          return res.status(200).json({
+            code: 200,
+            ...user.toJSON(),
+            accessToken,
+            refreshToken
+          });
         });
-    //   });
+      } else {
+        return res.send({
+          code: 404,
+          message: 'Password is not matched'
+        });
+      }
     }
   } catch (error) {
     return res.status(500).json(error);
