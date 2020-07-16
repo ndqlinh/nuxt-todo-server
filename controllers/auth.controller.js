@@ -27,7 +27,10 @@ exports.login = async (req, res) => {
   };
 
   try {
-    const user = await User.findOne(account);
+    const user = await User.findOne({
+      username: req.body.username,
+      hash: bcrypt.hashSync(req.body.password, 10)
+    });
     if (!user) {
       return res.send({
         code: 404,
