@@ -34,9 +34,9 @@ exports.login = async (req, res) => {
         const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
         const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
         user.tokens[refreshToken] = {accessToken, refreshToken};
-        user.update((err, user) => {
+        user.save(err => {
           if (err) {
-            return res.json({code: 401, error: err});
+            return res.status(403).json(err);
           }
           return res.status(200).json({
             code: 200,
