@@ -31,9 +31,9 @@ exports.login = async (req, res) => {
     } else {
       const match = await bcrypt.compare(req.body.password, user.hash);
       if (match) {
-        const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
-        const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
-        user.tokens[refreshToken] = {accessToken, refreshToken};
+        // const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
+        // const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
+        // user.tokens[refreshToken] = {accessToken, refreshToken};
         user.update((err, user) => {
           if (err) {
             return res.json(err);
@@ -41,8 +41,8 @@ exports.login = async (req, res) => {
           return res.status(200).json({
             code: 200,
             ...user.toJSON(),
-            accessToken,
-            refreshToken
+            // accessToken,
+            // refreshToken
           });
         });
       } else {
