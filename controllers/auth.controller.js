@@ -40,9 +40,7 @@ exports.login = async (req, res) => {
           }
           return res.status(200).json({
             code: 200,
-            ...user.toJSON(),
-            accessToken,
-            refreshToken
+            ...user.toJSON()
           });
         });
       } else {
