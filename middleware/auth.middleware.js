@@ -1,5 +1,6 @@
 const jwtHelper = require('../helpers/jwt.helper');
 const config = require('../config.json');
+const User = require('../models/user.model');
 const debug = console.log.bind(console);
 const accessTokenSecret = config.secret;
 
@@ -14,9 +15,16 @@ const isAuth = async (req, res, next) => {
 
   if (clientToken) {
     try {
-      const decoded = await jwtHelper.verifyToken(clientToken, accessTokenSecret);
-      req.jwtDecoded = decoded;
-      next();
+      const user = await User.findOne({ accessToken: clientToken });
+      if (user) {
+        const decoded = await jwtHelper.verifyToken(clientToken, accessTokenSecret);
+        req.jwtDecoded = decoded;
+        next();
+      } else {
+        return res.status(401).json({
+          message: 'Unauthorized.',
+        });
+      }
     } catch (err) {
       debug("Error while verify token:", error);
       return res.status(401).json({
