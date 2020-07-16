@@ -32,8 +32,8 @@ exports.login = async (req, res) => {
         message: `Username ${req.body.username} have not regiter yet`
       });
     } else {
-      const accessToken = await jwtHelper.generateToken(userFakeData, accessTokenSecret, accessTokenLife);
-      const refreshToken = await jwtHelper.generateToken(userFakeData, refreshTokenSecret, refreshTokenLife);
+      const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
+      const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
       user.tokens[refreshToken] = {accessToken, refreshToken};
       user.update((err, user) => {
         if (err) {

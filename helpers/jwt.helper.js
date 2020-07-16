@@ -13,7 +13,6 @@ const generateToken = (user, secretSignature, tokenLife) => {
       username: user.username
     };
 
-
     jwt.sign(
       { data: userData },
       secretSignature,
