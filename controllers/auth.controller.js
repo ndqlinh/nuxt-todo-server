@@ -33,18 +33,18 @@ exports.login = async (req, res) => {
       if (match) {
         const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
         const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
-        // user.tokens[refreshToken] = {accessToken, refreshToken};
-        // user.update((err, user) => {
-        //   if (err) {
-        //     return res.json(err);
-        //   }
+        user.tokens[refreshToken] = {accessToken, refreshToken};
+        user.update((err, user) => {
+          if (err) {
+            return res.json({err});
+          }
           return res.status(200).json({
             code: 200,
             ...user.toJSON(),
             accessToken,
             refreshToken
           });
-        // });
+        });
       } else {
         return res.send({
           code: 404,
