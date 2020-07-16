@@ -27,11 +27,14 @@ exports.login = async (req, res) => {
   };
 
   try {
-    const user = await User.findOne(account);
+    const user = await User.findOne({
+      username: req.body.username,
+      hash: bcrypt.hashSync(req.body.password, 10)
+    });
     if (!user) {
       return res.send({
         code: 404,
-        message: `Username ${req.body.username} have not regiter yet`
+        message: `Username ${req.body.username} have not register yet`
       });
     } else {
       const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
