@@ -34,8 +34,8 @@ const isAuth = async (req, res, next) => {
       });
     }
   } else {
-    return res.status(403).send({
-      code: 403,
+    return res.status(401).send({
+      code: 401,
       message: 'No token provided.',
     });
   }
