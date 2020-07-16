@@ -28,12 +28,12 @@ exports.login = async (req, res) => {
 
   try {
     const user = await User.findOne(account);
-    // if (!user) {
-    //   return res.send({
-    //     code: 404,
-    //     message: `Username ${req.body.username} have not register yet`
-    //   });
-    // } else {
+    if (!user) {
+      return res.send({
+        code: 404,
+        message: `Username ${req.body.username} have not register yet`
+      });
+    } else {
     //   const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
     //   const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
     //   user.tokens[refreshToken] = {accessToken, refreshToken};
@@ -48,7 +48,7 @@ exports.login = async (req, res) => {
           // refreshToken
         });
     //   });
-    // }
+    }
   } catch (error) {
     return res.status(500).json(error);
   }
