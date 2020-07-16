@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
       if (match) {
         const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
         const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
-        user.tokens[refreshToken] = {accessToken, refreshToken};
+        user.tokens = {accessToken, refreshToken};
         user.save(err => {
           if (err) {
             return res.status(403).json(err);
@@ -65,7 +65,7 @@ exports.refreshToken = async (req, res) => {
   if (clientRefreshToken) {
     try {
       const user = User.findOne({
-        tokens: { clientRefreshToken: clientRefreshToken }
+        tokens: { refreshToken: clientRefreshToken }
       });
       if (!user) {
         return res.send({
@@ -73,9 +73,10 @@ exports.refreshToken = async (req, res) => {
           message: 'Cannot find token.'
         });
       } else {
-        const decoded = await jwtHelper.verifyToken(clientRefreshToken, refreshTokenSecret);
-        const userFakeData = decoded.data;
-        const accessToken = await jwtHelper.generateToken(userFakeData, accessTokenSecret, accessTokenLife);
+        const decoded = await jwtHelper.verifyToken(clientRefreshToken, config.refreshSecret);
+        debug(`decoded: ${decoded}`);
+        const user = decoded.data;
+        const accessToken = await jwtHelper.generateToken(user, config.secret, accessTokenLife);
         return res.status(200).json({ accessToken });
       }
     } catch (error) {
