@@ -29,10 +29,10 @@ exports.login = async (req, res) => {
         message: `Username ${bcrypt.hashSync(req.body.password, 10)} have not register yet`
       });
     } else {
-      const match = await bcrypt.compare(req.body.password, user.hash);
+      const match = await bcrypt.compareSync(req.body.password, user.hash);
       if (match) {
-        // const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
-        // const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
+        const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
+        const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
         // user.tokens[refreshToken] = {accessToken, refreshToken};
         // user.update((err, user) => {
         //   if (err) {
@@ -41,8 +41,8 @@ exports.login = async (req, res) => {
           return res.status(200).json({
             code: 200,
             ...user.toJSON(),
-            // accessToken,
-            // refreshToken
+            accessToken,
+            refreshToken
           });
         // });
       } else {
