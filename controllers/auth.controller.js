@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
         user.tokens[refreshToken] = {accessToken, refreshToken};
         user.update((err, user) => {
           if (err) {
-            return res.json({err});
+            return res.json({code: 401, error: err});
           }
           return res.status(200).json({
             code: 200,
