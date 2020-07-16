@@ -25,7 +25,8 @@ exports.login = async (req, res) => {
     hash: bcrypt.hashSync(req.body.password, 10)
   };
 
-  User.findOne(account).then(user => {
+  try {
+    const user = await User.findOne(account);
     if (!user) {
       return res.send({
         code: 404,
@@ -47,9 +48,9 @@ exports.login = async (req, res) => {
         });
       });
     }
-  }).catch(error => {
+  } catch (error) {
     return res.status(500).json(error);
-  });
+  }
 }
 
 /**
