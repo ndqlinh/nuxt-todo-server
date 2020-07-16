@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
  * @param secretSignature 
  * @param tokenLife 
  */
-const generateToken = (user, secretSignature, tokenLife) => {
+const generateToken = async (user, secretSignature, tokenLife) => {
   return new Promise((resolve, reject) => {
     const userData = {
       _id: user._id,
@@ -35,7 +35,7 @@ const generateToken = (user, secretSignature, tokenLife) => {
  * @param {*} token 
  * @param {*} secretKey 
  */
-const verifyToken = (token, secretKey) => {
+const verifyToken = async (token, secretKey) => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, secretKey, (error, decoded) => {
       if (error) {
