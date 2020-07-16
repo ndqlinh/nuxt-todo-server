@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const errorHandler = require('./helpers/error-handler');
-// const jwt = require('./helpers/jwt');
 
 require('dotenv').config();
 
@@ -20,9 +19,6 @@ app.use(bodyParser.json());
 
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
-
-// use JWT auth to secure the api
-// app.use(jwt());
 
 // Configuring the database
 const dbConfig = require('./config/db.config');
@@ -53,7 +49,6 @@ const userRoute = require('./routes/user.route');
 const todoRoute = require('./routes/todo.route');
 
 app.use('/api/auth', authRoute);
-
 app.use('/api/users', userRoute);
 app.use('/api/todos', todoRoute);
 
