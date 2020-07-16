@@ -64,7 +64,7 @@ exports.refreshToken = async (req, res) => {
   const clientRefreshToken = req.body.refreshToken;
   if (clientRefreshToken) {
     try {
-      const user = User.findOne({
+      const user = await User.findOne({
         tokens: { refreshToken: clientRefreshToken }
       });
       if (!user) {
@@ -76,6 +76,8 @@ exports.refreshToken = async (req, res) => {
         const decoded = await jwtHelper.verifyToken(clientRefreshToken, config.refreshSecret);
         const userData = decoded.data;
         const accessToken = await jwtHelper.generateToken(userData, config.secret, accessTokenLife);
+        user.tokens = {refreshToken: clientRefreshToken, accessToken};
+        await user.save();
         return res.status(200).json({ accessToken });
       }
     } catch (error) {
