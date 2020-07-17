@@ -9,6 +9,9 @@ router.use(authMiddleWare.isAuth);
 // Retrieve all todos
 router.get('/', todoController.findAll);
 
+// Get all todos by user id
+router.post('/', todoController.findAllById);
+
 // Create new todo
 router.post('/', todoController.create);
 

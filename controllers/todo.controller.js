@@ -7,6 +7,13 @@ exports.findAll = (req, res) => {
   }).catch(err => next(err));
 };
 
+// Retrieve and return all todos by user id from database
+exports.findAllById = (req, res) => {
+  Todo.find({ userId: req.body.userId }).then(todos => {
+    res.send(todos);
+  }).catch(err => next(err));
+};
+
 // Find a single Todo with a id
 exports.findOne = (req, res) => {
   Todo.findById(req.params.id).then(todo => {
