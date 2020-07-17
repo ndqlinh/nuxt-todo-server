@@ -40,7 +40,7 @@ exports.create = (req, res) => {
   // Create a new Todo
   const todo = new Todo({
     name: req.body.name,
-    userId: req.body.userId
+    userId: req.params.id
   });
   // Save todo in the database
   todo.save().then(() => {

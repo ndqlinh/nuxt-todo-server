@@ -13,7 +13,7 @@ router.get('/', todoController.findAll);
 router.post('/', todoController.findAllById);
 
 // Create new todo
-router.post('/', todoController.create);
+router.post('/:id', todoController.create);
 
 // Retrieve a single todo with id
 router.get('/:id', todoController.findOne);
