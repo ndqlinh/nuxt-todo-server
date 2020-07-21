@@ -24,7 +24,7 @@ exports.login = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
-      return res.send({
+      return res.status(404).send({
         code: 404,
         message: `Username ${bcrypt.hashSync(req.body.password, 10)} have not register yet`
       });
