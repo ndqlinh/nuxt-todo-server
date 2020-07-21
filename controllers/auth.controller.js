@@ -115,3 +115,29 @@ exports.logout = async (req, res) => {
     return res.status(500).json(error);
   }
 }
+
+/**
+ * controller register
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.register = async (req, res) => {
+  // Validate request
+  if (!req.body) {
+    return res.status(400).send({
+      code: 400,
+      message: 'Bad request'
+    });
+  }
+
+  // Create a new User
+  const user = new User({
+    username: req.body.username,
+    hash: bcrypt.hashSync(req.body.password, 10)
+  });
+
+  // Save user in the database
+  user.save().then(data => {
+    res.send({ code: 200, message: 'Register success' })
+  }).catch(err => next(err));
+}
