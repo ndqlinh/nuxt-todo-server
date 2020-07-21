@@ -26,7 +26,7 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(404).send({
         code: 404,
-        message: `Username ${bcrypt.hashSync(req.body.password, 10)} have not register yet`
+        message: `Username ${req.body.username} have not register yet`
       });
     } else {
       const match = await bcrypt.compareSync(req.body.password, user.hash);
