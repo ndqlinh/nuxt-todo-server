@@ -26,7 +26,7 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(404).send({
         code: 404,
-        message: `Username ${req.body.username} have not register yet`
+        message: `Username or password is invalid!`
       });
     } else {
       const match = await bcrypt.compareSync(req.body.password, user.hash);
@@ -45,8 +45,8 @@ exports.login = async (req, res) => {
           });
         });
       } else {
-        return res.send({
-          code: 404,
+        return res.status(403).send({
+          code: 403,
           message: 'Password is not matched'
         });
       }
@@ -67,7 +67,7 @@ exports.refreshToken = async (req, res) => {
     try {
       const user = await User.findOne({ refreshToken: clientRefreshToken });
       if (!user) {
-        return res.send({
+        return res.status(404).send({
           code: 404,
           message: 'Cannot find token.'
         });
@@ -101,7 +101,7 @@ exports.logout = async (req, res) => {
   try {
     const user = await User.findOne({ accessToken: req.headers['x-access-token'] });
     if (!user) {
-      return res.send({
+      return res.status(404).send({
         code: 404,
         message: 'Cannot find token.'
       });
@@ -138,6 +138,6 @@ exports.register = async (req, res) => {
 
   // Save user in the database
   user.save().then(data => {
-    res.send({ code: 200, message: 'Register success' })
+    res.status(200).send({ code: 200, message: 'Register success' })
   }).catch(err => next(err));
 }
