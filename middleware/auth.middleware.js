@@ -18,8 +18,15 @@ const isAuth = async (req, res, next) => {
       const user = await User.findOne({ accessToken: clientToken });
       if (user) {
         const decoded = await jwtHelper.verifyToken(clientToken, accessTokenSecret);
-        req.jwtDecoded = decoded;
-        next();
+        if (decoded) {
+          req.jwtDecoded = decoded;
+          next();
+        } else {
+          return res.status(401).json({
+            code: 401,
+            message: 'Token is expired.',
+          });
+        }
       } else {
         return res.status(401).json({
           code: 401,
