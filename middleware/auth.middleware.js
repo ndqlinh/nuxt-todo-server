@@ -12,8 +12,8 @@ const accessTokenSecret = config.secret;
  */
 const isAuth = async (req, res, next) => {
   const clientToken = req.body.token || req.query.token || req.headers['x-access-token'];
-  let decoded = '';
   if (clientToken) {
+    let decoded = '';
     try {
       decoded = await jwtHelper.verifyToken(clientToken, accessTokenSecret);
       if (decode) {
@@ -34,9 +34,10 @@ const isAuth = async (req, res, next) => {
         });
       }
     } catch (err) {
-      return res.status(401).json({
+      return res.status(403).json({
         code: 403,
         message: 'Token is expired.',
+        error: err
       });
     }
   } else {
