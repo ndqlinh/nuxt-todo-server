@@ -4,7 +4,7 @@ const jwtHelper = require('../helpers/jwt.helper');
 const config = require('../config.json');
 const debug = console.log.bind(console);
 const accessTokenSecret = config.secret;
-const accessTokenLife = '5m';
+const accessTokenLife = '1m';
 const refreshTokenSecret = config.refreshSecret;
 const refreshTokenLife = '3650d';
 
