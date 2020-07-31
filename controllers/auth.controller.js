@@ -4,7 +4,7 @@ const jwtHelper = require('../helpers/jwt.helper');
 const config = require('../config.json');
 const debug = console.log.bind(console);
 const accessTokenSecret = config.secret;
-const accessTokenLife = '1m';
+const accessTokenLife = '1d';
 const refreshTokenSecret = config.refreshSecret;
 const refreshTokenLife = '3650d';
 
@@ -101,9 +101,9 @@ exports.logout = async (req, res) => {
   try {
     const user = await User.findOne({ accessToken: req.headers['x-access-token'] });
     if (!user) {
-      return res.status(404).send({
-        code: 404,
-        message: 'Cannot find token.'
+      return res.status(401).send({
+        code: 401,
+        message: 'Token is invalid.'
       });
     } else {
       user.accessToken = '';
