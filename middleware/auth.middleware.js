@@ -22,19 +22,19 @@ const isAuth = async (req, res, next) => {
       } else {
         res.status(403).json({
           code: 403,
-          error: new Error('Token Invalid!')
+          message: 'Token invalid!'
         });
       }
     } catch (error) {
       res.status(403).json({
         code: 403,
-        error: new Error('Token expired!')
+        message: 'Token expired!'
       });
     }
   } else {
     res.status(401).json({
       code: 401,
-      error: new Error('Unauthorized!')
+      message: 'Unauthorized!'
     });
   }
   
