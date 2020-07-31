@@ -20,15 +20,15 @@ const isAuth = async (req, res, next) => {
         req.jwtDecoded = decoded;
         next();
       } else {
-        res.status(403).json({
-          code: 403,
-          message: 'Token invalid!'
+        res.status(400).json({
+          code: 400,
+          message: 'Token is invalid!'
         });
       }
     } catch (error) {
       res.status(403).json({
         code: 403,
-        message: 'Token expired!'
+        message: 'Token is expired!'
       });
     }
   } else {
@@ -37,33 +37,6 @@ const isAuth = async (req, res, next) => {
       message: 'Unauthorized!'
     });
   }
-  
-  // if (clientToken) {
-  //   try {
-  //     const user = await User.findOne({ accessToken: clientToken });
-  //     if (user) {
-  //       const decoded = await jwtHelper.verifyToken(clientToken, accessTokenSecret);
-  //       req.jwtDecoded = decoded;
-  //       next();
-  //     } else {
-  //       return res.status(401).json({
-  //         code: 401,
-  //         message: 'Unauthorized.',
-  //       });
-  //     }
-  //   } catch (err) {
-  //     debug("Error while verify token:", error);
-  //     return res.status(401).json({
-  //       code: 401,
-  //       message: 'Unauthorized.',
-  //     });
-  //   }
-  // } else {
-  //   return res.status(401).send({
-  //     code: 401,
-  //     message: 'No token provided.',
-  //   });
-  // }
 }
 
 module.exports = {
