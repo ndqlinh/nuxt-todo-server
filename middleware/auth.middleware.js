@@ -2,7 +2,6 @@ const jwtHelper = require('../helpers/jwt.helper');
 const config = require('../config.json');
 const User = require('../models/user.model');
 const accessTokenSecret = config.secret;
-const authController = require('../controllers/auth.controller');
 
 /**
  * Middleware: Authorization user by Token
@@ -26,34 +25,16 @@ const isAuth = async (req, res, next) => {
         });
       }
     } catch (error) {
-      // Handle token expired
-      // const clientRefreshToken = req.headers['x-refresh-token'];
-      // const user = await User.findOne({ refreshToken: clientRefreshToken });
-      // const decoded = await jwtHelper.verifyToken(clientRefreshToken, config.refreshSecret);
-      // const userData = decoded.data;
-      // const accessToken = await jwtHelper.generateToken(userData, config.secret, '1m');
-      // await user.save();
-      // res.accessToken = accessToken
-      // next();
-
-      if (error) {
-        if (error.name === 'TokenExpiredError') {
-          res.status(403).json({
-            code: 403,
-            message: 'Token is expired!'
-          });
-        } else {
-          res.status(401).json({
-            code: 401,
-            message: 'Unauthorized!'
-          });
-        }
+      if (error && error.name === 'TokenExpiredError') {
+        res.status(403).json({
+          code: 403,
+          message: 'Token is expired!'
+        });
       }
-
-      // res.status(403).json({
-      //   code: 403,
-      //   message: 'Token is expired!'
-      // });
+      res.status(401).json({
+        code: 401,
+        message: 'Unauthorized!'
+      });
     }
   } else {
     res.status(401).json({
