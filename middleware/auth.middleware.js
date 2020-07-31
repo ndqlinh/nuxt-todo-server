@@ -12,37 +12,51 @@ const accessTokenSecret = config.secret;
  */
 const isAuth = async (req, res, next) => {
   const clientToken = req.headers['x-access-token'];
-  
-  if (clientToken) {
-    try {
-      const user = await User.findOne({ accessToken: clientToken });
-      if (user) {
-        const decoded = await jwtHelper.verifyToken(clientToken, accessTokenSecret);
-        req.jwtDecoded = decoded;
-        return res.status(403).json({
-          code: 403,
-          data: decoded
-        });
-        // next();
-      } else {
-        return res.status(401).json({
-          code: 401,
-          message: 'Unauthorized.',
-        });
-      }
-    } catch (err) {
-      debug("Error while verify token:", error);
-      return res.status(401).json({
+  try {
+    const decoded = await jwtHelper.verifyToken(clientToken, accessTokenSecret);
+    const user = await User.findOne({ accessToken: clientToken });
+    if (user) {
+      req.jwtDecoded = decoded;
+      next();
+    } else {
+      res.status(401).json({
         code: 401,
-        message: 'Unauthorized.',
+        error: new Error('Unauthorized!')
       });
     }
-  } else {
-    return res.status(401).send({
+  } catch (error) {
+    res.status(401).json({
       code: 401,
-      message: 'No token provided.',
+      error: new Error('Unauthorized!')
     });
   }
+  
+  // if (clientToken) {
+  //   try {
+  //     const user = await User.findOne({ accessToken: clientToken });
+  //     if (user) {
+  //       const decoded = await jwtHelper.verifyToken(clientToken, accessTokenSecret);
+  //       req.jwtDecoded = decoded;
+  //       next();
+  //     } else {
+  //       return res.status(401).json({
+  //         code: 401,
+  //         message: 'Unauthorized.',
+  //       });
+  //     }
+  //   } catch (err) {
+  //     debug("Error while verify token:", error);
+  //     return res.status(401).json({
+  //       code: 401,
+  //       message: 'Unauthorized.',
+  //     });
+  //   }
+  // } else {
+  //   return res.status(401).send({
+  //     code: 401,
+  //     message: 'No token provided.',
+  //   });
+  // }
 }
 
 module.exports = {
