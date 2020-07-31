@@ -31,7 +31,7 @@ const isAuth = async (req, res, next) => {
       const user = await User.findOne({ refreshToken: clientRefreshToken });
       const decoded = await jwtHelper.verifyToken(clientRefreshToken, config.refreshSecret);
       const userData = decoded.data;
-      const accessToken = await jwtHelper.generateToken(userData, config.secret, accessTokenLife);
+      const accessToken = await jwtHelper.generateToken(userData, config.secret, '1m');
       await user.save();
       res.status(200).json({
         code: 200,
