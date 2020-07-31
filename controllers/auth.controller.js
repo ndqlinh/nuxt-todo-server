@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
  * @param {*} res 
  */
 exports.refreshToken = async (req, res) => {
-  const clientRefreshToken = req.body.refreshToken;
+  const clientRefreshToken = req.body.refreshToken || req.headers['x-refresh-token'];
   if (clientRefreshToken) {
     try {
       const user = await User.findOne({ refreshToken: clientRefreshToken });
