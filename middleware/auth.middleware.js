@@ -11,7 +11,7 @@ const accessTokenSecret = config.secret;
  * @param {*} next 
  */
 const isAuth = async (req, res, next) => {
-  const clientToken = req.body.token || req.query.token || req.headers['x-access-token'];
+  const clientToken = req.headers['x-access-token'];
   
   if (clientToken) {
     try {
@@ -19,7 +19,11 @@ const isAuth = async (req, res, next) => {
       if (user) {
         const decoded = await jwtHelper.verifyToken(clientToken, accessTokenSecret);
         req.jwtDecoded = decoded;
-        next();
+        return res.status(403).json({
+          code: 403,
+          data: decoded
+        });
+        // next();
       } else {
         return res.status(401).json({
           code: 401,
