@@ -12,19 +12,26 @@ const accessTokenSecret = config.secret;
  */
 const isAuth = async (req, res, next) => {
   const clientToken = req.headers['x-access-token'];
-  try {
-    const decoded = await jwtHelper.verifyToken(clientToken, accessTokenSecret);
-    const user = await User.findOne({ accessToken: clientToken });
-    if (user) {
-      req.jwtDecoded = decoded;
-      next();
-    } else {
-      res.status(401).json({
-        code: 401,
-        error: new Error('Unauthorized!')
+  if (clientToken) {
+    try {
+      const decoded = await jwtHelper.verifyToken(clientToken, accessTokenSecret);
+      const user = await User.findOne({ accessToken: clientToken });
+      if (user) {
+        req.jwtDecoded = decoded;
+        next();
+      } else {
+        res.status(403).json({
+          code: 403,
+          error: new Error('Token Invalid!')
+        });
+      }
+    } catch (error) {
+      res.status(403).json({
+        code: 403,
+        error: new Error('Token expired!')
       });
     }
-  } catch (error) {
+  } else {
     res.status(401).json({
       code: 401,
       error: new Error('Unauthorized!')
