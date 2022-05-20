@@ -19,7 +19,6 @@ app.use(bodyParser.json());
 
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
-app.options('*', cors());
 
 // Configuring the database
 const dbConfig = require('./config/db.config');
