@@ -1,7 +1,7 @@
 {
   "name": "nuxt-todo-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Build a Restful CRUD API for a simple Todo server using Node.js, Express and MongoDB.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -19,5 +19,10 @@
     "jsonwebtoken": "8.5.1",
     "mongodb": "^4.6.0",
     "mongoose": "^6.3.4"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git@personal.github.com:tsu-linhnguyen/nuxt-todo-server.git"
   }
 }
