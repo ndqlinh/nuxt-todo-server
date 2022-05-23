@@ -33,9 +33,9 @@ client.connect(err => {
   // perform actions on the collection object
   client.close();
 });
+
 // const mongoose = require('mongoose');
 // mongoose.Promise = global.Promise;
-
 // Connecting to the database
 // mongoose.connect(dbConfig.url, {
 //   useNewUrlParser: true,
