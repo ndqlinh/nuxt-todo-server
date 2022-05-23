@@ -23,30 +23,31 @@ app.use(cors());
 
 // Configuring the database
 const dbConfig = require('./config/db.config');
-const client = new MongoClient(dbConfig.url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1
-});
-client.connect(err => {
-  const collection = client.db('test').collection('devices');
-  // perform actions on the collection object
-  client.close();
-});
 
-// const mongoose = require('mongoose');
-// mongoose.Promise = global.Promise;
-// Connecting to the database
-// mongoose.connect(dbConfig.url, {
+// const client = new MongoClient(dbConfig.url, {
 //   useNewUrlParser: true,
-//   useUnifiedTopology: true
+//   useUnifiedTopology: true,
+//   serverApi: ServerApiVersion.v1
 // });
-// mongoose.connection.once('open', () => {
-//   console.log('Successfully connected to the database!');
-// }).on('error', error => {
-//   console.log('Error is: ', error);
-//   process.exit();
+// client.connect(err => {
+//   const collection = client.db('test').collection('devices');
+//   // perform actions on the collection object
+//   client.close();
 // });
+
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+// Connecting to the database
+mongoose.connect(dbConfig.url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+mongoose.connection.once('open', () => {
+  console.log('Successfully connected to the database!');
+}).on('error', error => {
+  console.log('Error is: ', error);
+  process.exit();
+});
 
 // Define a root/default route
 app.get('/', (req, res) => {
