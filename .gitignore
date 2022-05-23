@@ -1,0 +1,22 @@
+.vscode
+.DS_STORE
+node_modules
+.module-cache
+*.log*
+build
+dist
+release
+# WebStorm
+.idea/*
+
+# nodenv
+.node-version
+
+# Env
+# .env.*
+
+# electron build
+*.provisionprofile
+*.p12
+*.p8
+electron-builder.env
