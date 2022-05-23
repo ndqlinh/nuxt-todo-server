@@ -55,10 +55,12 @@ app.get('/', (req, res) => {
 const authRoute = require('./routes/auth.route');
 const userRoute = require('./routes/user.route');
 const todoRoute = require('./routes/todo.route');
+const healthRoute = require('./routes/health.route');
 
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
 app.use('/api/todos', todoRoute);
+app.use('/api/health', healthRoute);
 
 // global error handler
 app.use(errorHandler);
