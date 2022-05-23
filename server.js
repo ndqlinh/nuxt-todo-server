@@ -24,42 +24,40 @@ app.use(cors());
 // Configuring the database
 const dbConfig = require('./config/db.config');
 
-const client = new MongoClient(dbConfig.url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1
-});
-
-async function main() {
-  // Use connect method to connect to the server
-  await client.connect();
-  console.log('Connected successfully to server');
-  const db = client.db('heroku-pmlt39n5');
-  const collection = db.collection('documents');
-
-  // the following code examples can be pasted here...
-
-  return 'done.';
-}
-
-main()
-  .then(console.log)
-  .catch(console.error)
-  .finally(() => client.close());
-
-// const mongoose = require('mongoose');
-// mongoose.Promise = global.Promise;
-// // Connecting to the database
-// mongoose.connect(dbConfig.url, {
+// const client = new MongoClient(dbConfig.url, {
 //   useNewUrlParser: true,
-//   useUnifiedTopology: true
+//   useUnifiedTopology: true,
+//   serverApi: ServerApiVersion.v1
 // });
-// mongoose.connection.once('open', () => {
-//   console.log('Successfully connected to the database!');
-// }).on('error', error => {
-//   console.log('Error is: ', error);
-//   process.exit();
-// });
+
+// async function main() {
+//   // Use connect method to connect to the server
+//   await client.connect();
+//   console.log('Connected successfully to server');
+//   const db = client.db('heroku-pmlt39n5');
+//   const collection = db.collection('documents');
+
+//   return 'done.';
+// }
+
+// main()
+//   .then(console.log)
+//   .catch(console.error)
+//   .finally(() => client.close());
+
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+// Connecting to the database
+mongoose.connect(dbConfig.url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+mongoose.connection.once('open', () => {
+  console.log('Successfully connected to the database!');
+}).on('error', error => {
+  console.log('Error is: ', error);
+  process.exit();
+});
 
 // Define a root/default route
 app.get('/', (req, res) => {
