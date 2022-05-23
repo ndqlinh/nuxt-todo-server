@@ -30,7 +30,7 @@ const client = new MongoClient(dbConfig.url, {
   serverApi: ServerApiVersion.v1
 });
 client.connect(err => {
-  const collection = client.db('test').collection('devices');
+  const collection = client.db('heroku-pmlt39n5').collection('users');
   // perform actions on the collection object
   client.close();
 });
